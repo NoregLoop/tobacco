@@ -14,6 +14,6 @@ public class PicImpl implements IPIcService {
     public List<OSSObjectSummary> getImages() throws Exception {
         GetOssImages handlImg = new GetOssImages();
         List<OSSObjectSummary> res = handlImg.getImages();
-        return null;
+        return res;
     }
 }

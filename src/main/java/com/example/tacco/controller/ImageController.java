@@ -23,6 +23,8 @@ public class ImageController {
     public JSON login() throws Exception {
         System.out.println("開始獲取");
         List<OSSObjectSummary> res = this.imgService.getImages();
-        return null;
+        JSONObject data = new JSONObject();
+        data.put("imgList", res);
+        return data;
     }
 }
