@@ -16,7 +16,7 @@ public class GetOssImages {
     // 填写Bucket名称，例如examplebucket。
     private static String bucketName = "scau404";
 
-    private static String keyPrefix = "camera1/Camera";
+    private static String keyPrefix = "KF1/K1C1";
 
     private static List<OSSObjectSummary> sums;
 
