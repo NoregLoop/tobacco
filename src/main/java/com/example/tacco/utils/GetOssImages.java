@@ -16,7 +16,7 @@ public class GetOssImages {
     // 填写Bucket名称，例如examplebucket。
     private static String bucketName = "scau404";
 
-    private static String keyPrefix = "camera1/Camera";
+    private static String keyPrefix = "KF1/K1C1";
 
     private static List<OSSObjectSummary> sums;
 
@@ -46,13 +46,12 @@ public class GetOssImages {
                 System.out.println(b.getName());
             }
             for (OSSObjectSummary s : sums) {
-                System.out.println("\t" + s.getKey());
-                s.setKey("https://scau404.oss-cn-guangzhou.aliyuncs.com/".concat(s.getKey()).replace(' ', '%'));
-                System.out.println("\t" + s.getKey());
+                s.setBucketName(s.getKey());
+                s.setKey("https://scau404.oss-cn-guangzhou.aliyuncs.com/".concat(s.getKey()));
+
                 count++;
             }
-            System.out.println(sums.isEmpty());
-            System.out.println(count + "张打印结束");
+            System.out.println("示例：" + sums.indexOf(0));
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
                     + "but was rejected with an error response for some reason.");
