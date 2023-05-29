@@ -16,7 +16,7 @@ public class GetOssImages {
     // 填写Bucket名称，例如examplebucket。
     private static String bucketName = "scau404";
 
-    private static String keyPrefix = "KF1/K1C1";
+    private static String keyPrefix = "camera1/";
 
     private static List<OSSObjectSummary> sums;
 
@@ -48,7 +48,6 @@ public class GetOssImages {
             for (OSSObjectSummary s : sums) {
                 s.setBucketName(s.getKey());
                 s.setKey("https://scau404.oss-cn-guangzhou.aliyuncs.com/".concat(s.getKey()));
-
                 count++;
             }
             System.out.println("示例：" + sums.get(0));
