@@ -51,7 +51,7 @@ public class GetOssImages {
 
                 count++;
             }
-            System.out.println("示例：" + sums.indexOf(0));
+            System.out.println("示例：" + sums.get(0));
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
                     + "but was rejected with an error response for some reason.");
