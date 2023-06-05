@@ -2,11 +2,15 @@ package com.example.tacco.utils;
 
 import com.aliyun.oss.*;
 import com.aliyun.oss.model.*;
+import com.example.tacco.entity.directory;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GetOssImages {
     private static String endpoint = "https://oss-cn-guangzhou.aliyuncs.com";
@@ -16,9 +20,11 @@ public class GetOssImages {
     // 填写Bucket名称，例如examplebucket。
     private static String bucketName = "scau404";
 
-    private static String keyPrefix = "camera1/";
+//    private static String keyPrefix = "camera1/";
 
-    private static List<OSSObjectSummary> sums;
+//    private static List<OSSObjectSummary> sums;
+//
+//    private static List<directory> directoryList=new ArrayList<>();
 
     public static void main() throws Exception {
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
@@ -29,19 +35,18 @@ public class GetOssImages {
         ossClient.shutdown();
     }
 
-    public List<OSSObjectSummary> getImages() throws Exception {
+    public List<OSSObjectSummary> getImages(String keyPrefix) throws Exception {
+        List<OSSObjectSummary> sums=new ArrayList<>();
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-        selectImage(ossClient);
-        return sums;
-    }
-
-    private static void selectImage(OSS ossClient) throws Exception {
         try {
             // 列举文件。如果不设置keyPrefix，则列举存储空间下的所有文件。如果设置keyPrefix，则列举包含指定前缀的文件。
             ObjectListing objectListing = ossClient.listObjects(bucketName, keyPrefix);
             sums = objectListing.getObjectSummaries();
             int count = 0;
             List<Bucket> bucket = ossClient.listBuckets();
+            BucketInfo info = ossClient.getBucketInfo(bucketName);
+            System.out.println(info.getBucket().getExtranetEndpoint());
+
             for (Bucket b : bucket) {
                 System.out.println(b.getName());
             }
@@ -68,6 +73,36 @@ public class GetOssImages {
                 ossClient.shutdown();
             }
         }
+        return sums;
+    }
+
+    public List<directory> getDirectory() throws Exception {
+        List<directory> directoryList=new ArrayList<>();
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+        ListObjectsRequest listObjectsRequest = new ListObjectsRequest(bucketName);
+        listObjectsRequest.setDelimiter("/");
+
+        // 列出主目录下的所有文件夹。
+        listObjectsRequest.setPrefix("");
+        ObjectListing listing = ossClient.listObjects(listObjectsRequest);
+        List<String> directory=listing.getCommonPrefixes();
+        int count=0;
+        for (String Prefix : directory){
+            System.out.println(Prefix);
+            com.example.tacco.entity.directory d=new directory();
+            d.setDirName(Prefix);
+            d.setKey(count);
+            directoryList.add(d);
+            count++;
+        }
+        return directoryList;
+    }
+
+    private static void getDirectory(OSS ossClient) throws Exception{
+
+    }
+
+    private static void selectImage(OSS ossClient) throws Exception {
 
     }
 
